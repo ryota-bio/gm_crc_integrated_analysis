@@ -22,6 +22,7 @@ This repository contains the final scripts used to reproduce the RNA-seq analyse
 5. Differential expression analysis using DESeq2
 6. Hallmark gene set enrichment analysis using clusterProfiler and msigdbr
 7. Figure generation in R
+8. GSEA NES bar plot generation for the top 20 Hallmark pathways ranked by adjusted P value
 
 ## Repository structure
 
@@ -62,6 +63,7 @@ Run the pipeline:
     Rscript scripts/05_deseq2_deg_analysis.R
     Rscript scripts/06_clusterprofiler_gsea_analysis.R
     Rscript scripts/07_make_figures.R
+    Rscript scripts/08_make_gsea_nes_barplot.R
 
 ## Output files
 
@@ -81,6 +83,11 @@ Hallmark GSEA results are generated in:
 
     results/gsea/Gm_HCT116_GSEA_HALLMARK_Inf4h_vs_Ctr.csv
     results/gsea/Gm_HCT116_GSEA_HALLMARK_Inf24h_vs_Ctr.csv
+
+GSEA NES bar plots are generated in:
+
+    results/figures/Inf4h_Hallmark_GSEA_Top20_by_padj.pdf
+    results/figures/Inf24h_Hallmark_GSEA_Top20_by_padj.pdf
 
 ## Software versions
 
