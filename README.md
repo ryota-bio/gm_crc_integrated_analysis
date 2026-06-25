@@ -1,104 +1,157 @@
 # RNA-seq analysis of HCT116 cells infected with *Gemella morbillorum*
 
-This repository contains the final scripts used to reproduce the RNA-seq analyses reported in the manuscript.
+This repository contains scripts used for RNA-seq analysis of HCT116 colorectal cancer cells infected with *Gemella morbillorum*.
+
+The analysis includes read quality control, transcript quantification, gene-level count and TPM matrix generation, differential expression analysis, Hallmark GSEA, GO Biological Process over-representation analysis, KEGG pathway over-representation analysis, and figure generation.
 
 ## Experimental design
 
-- Cell line: HCT116
-- Conditions:
-  - Control
-  - *Gemella morbillorum* infection for 4 h
-  - *Gemella morbillorum* infection for 24 h
-- Replicates: n = 3 per group
-- Sequencing: paired-end RNA-seq
-- Reference: GENCODE release 45
+HCT116 cells were analyzed under the following conditions:
+
+- Control
+- *Gemella morbillorum* infection for 4 h
+- *Gemella morbillorum* infection for 24 h
+
+Each condition included three biological replicates.
+
+RNA-seq libraries were generated as paired-end reads. Transcript quantification was performed using Salmon with a GENCODE release 45 transcriptome reference.
 
 ## Workflow
 
-1. Quality control and trimming using fastp
-2. Salmon index construction using GENCODE v45 transcript sequences
+1. Quality control and read trimming using fastp
+2. Salmon index construction
 3. Transcript quantification using Salmon
 4. Gene-level count and TPM matrix generation using tximport
 5. Differential expression analysis using DESeq2
-6. Hallmark gene set enrichment analysis using clusterProfiler and msigdbr
-7. Figure generation in R
-8. GSEA NES bar plot generation for the top 20 Hallmark pathways ranked by adjusted P value
+6. Hallmark GSEA using clusterProfiler
+7. PCA figure generation
+8. Hallmark GSEA NES bar plot generation
+9. GO Biological Process ORA dot plot generation
+10. KEGG pathway ORA dot plot generation
 
 ## Repository structure
 
-- scripts/: analysis scripts
-- metadata/: sample metadata
-- environment/: conda environment and software versions
-- README.md: repository description
+```text
+gm_hct116_rnaseq/
+├── README.md
+├── LICENSE
+├── environment/
+│   ├── conda_environment.yml
+│   └── software_versions.txt
+├── metadata/
+│   └── sample_metadata.csv
+└── scripts/
+    ├── 01_fastp_qc.sh
+    ├── 02_salmon_index.sh
+    ├── 03_salmon_quant.sh
+    ├── 04_tximport_make_count_tpm.R
+    ├── 05_deseq2_deg_analysis.R
+    ├── 06_clusterprofiler_gsea_analysis.R
+    ├── 07_make_figures.R
+    ├── 08_make_gsea_nes_barplot.R
+    ├── 09_make_go_ora_dotplots.R
+    └── 10_make_kegg_ora_dotplots.R
+```
 
 ## Input files
 
 Raw FASTQ files are not included in this repository.
 
-Place paired-end FASTQ files in:
+The analysis assumes the following local directory structure:
 
-    data/raw_fastq/
+```text
+data/raw_fastq/
+reference/
+results/
+```
 
-Reference files are not included in this repository.
+The sample information is provided in:
 
-Place the following GENCODE release 45 files in:
-
-    reference/
-    gencode.v45.transcripts.fa.gz
-    gencode.v45.annotation.gtf.gz
+```text
+metadata/sample_metadata.csv
+```
 
 ## Running the analysis
 
-Create and activate the conda environment:
+Run the scripts from the project root directory.
 
-    conda env create -f environment/conda_environment.yml
-    conda activate gm_rnaseq
-
-Run the pipeline:
-
-    bash scripts/01_fastp_qc.sh
-    bash scripts/02_salmon_index.sh
-    bash scripts/03_salmon_quant.sh
-    Rscript scripts/04_tximport_make_count_tpm.R
-    Rscript scripts/05_deseq2_deg_analysis.R
-    Rscript scripts/06_clusterprofiler_gsea_analysis.R
-    Rscript scripts/07_make_figures.R
-    Rscript scripts/08_make_gsea_nes_barplot.R
+```bash
+bash scripts/01_fastp_qc.sh
+bash scripts/02_salmon_index.sh
+bash scripts/03_salmon_quant.sh
+Rscript scripts/04_tximport_make_count_tpm.R
+Rscript scripts/05_deseq2_deg_analysis.R
+Rscript scripts/06_clusterprofiler_gsea_analysis.R
+Rscript scripts/07_make_figures.R
+Rscript scripts/08_make_gsea_nes_barplot.R
+Rscript scripts/09_make_go_ora_dotplots.R
+Rscript scripts/10_make_kegg_ora_dotplots.R
+```
 
 ## Output files
 
-The main processed expression matrices are generated in:
+Gene-level expression matrices:
 
-    results/gene_matrices/Gm_HCT116_salmon_gene_counts.csv
-    results/gene_matrices/Gm_HCT116_salmon_gene_tpm.csv
+- `results/gene_matrices/Gm_HCT116_salmon_gene_counts.csv`
+- `results/gene_matrices/Gm_HCT116_salmon_gene_tpm.csv`
 
-The count matrix represents Salmon/tximport-derived gene-level estimated counts generated with countsFromAbundance = "lengthScaledTPM".
+Differential expression results:
 
-DESeq2 results are generated in:
+- `results/deseq2_deg/Gm_HCT116_DESeq2_Inf4h_vs_Ctr.csv`
+- `results/deseq2_deg/Gm_HCT116_DESeq2_Inf24h_vs_Ctr.csv`
 
-    results/deseq2_deg/Gm_HCT116_DESeq2_Inf4h_vs_Ctr.csv
-    results/deseq2_deg/Gm_HCT116_DESeq2_Inf24h_vs_Ctr.csv
+Hallmark GSEA results:
 
-Hallmark GSEA results are generated in:
+- `results/gsea/Gm_HCT116_GSEA_HALLMARK_Inf4h_vs_Ctr.csv`
+- `results/gsea/Gm_HCT116_GSEA_HALLMARK_Inf24h_vs_Ctr.csv`
 
-    results/gsea/Gm_HCT116_GSEA_HALLMARK_Inf4h_vs_Ctr.csv
-    results/gsea/Gm_HCT116_GSEA_HALLMARK_Inf24h_vs_Ctr.csv
+GO-BP and KEGG ORA results:
 
-GSEA NES bar plots are generated in:
+- `results/ora/*GO_BP*_ORA.csv`
+- `results/ora/*KEGG*_ORA.csv`
 
-    results/figures/Inf4h_Hallmark_GSEA_Top20_by_padj.pdf
-    results/figures/Inf24h_Hallmark_GSEA_Top20_by_padj.pdf
+Figures:
+
+- `results/figures/Figure_PCA_RNAseq.pdf`
+- `results/figures/Inf4h_Hallmark_GSEA_Top20_by_padj.pdf`
+- `results/figures/Inf4h_Hallmark_GSEA_Top20_by_padj.png`
+- `results/figures/Inf24h_Hallmark_GSEA_Top20_by_padj.pdf`
+- `results/figures/Inf24h_Hallmark_GSEA_Top20_by_padj.png`
+- `results/figures/*GO_BP*dotplot.pdf`
+- `results/figures/*GO_BP*dotplot.png`
+- `results/figures/*KEGG*dotplot.pdf`
+- `results/figures/*KEGG*dotplot.png`
+
+## Notes on ORA
+
+GO-BP and KEGG over-representation analyses were performed using differentially expressed genes defined by:
+
+```text
+adjusted P value < 0.05
+log2 fold change > 1 for upregulated genes
+log2 fold change < -1 for downregulated genes
+```
+
+Dot plots show the top enriched terms or pathways ranked by adjusted P value. The x-axis represents GeneRatio, dot size represents gene count, and dot color represents adjusted P value.
 
 ## Software versions
 
-Key software versions are listed in:
+Software versions and package information are provided in:
 
-    environment/software_versions.txt
+```text
+environment/software_versions.txt
+```
+
+The conda environment file is provided in:
+
+```text
+environment/conda_environment.yml
+```
 
 ## Data availability
 
-Raw sequencing data and processed gene expression matrices will be deposited in GEO/DDBJ under accession numbers to be assigned.
+Raw and processed RNA-seq data will be deposited in a public nucleotide sequence database under an accession number to be provided upon acceptance.
 
 ## Code availability
 
-The scripts used for RNA-seq quality control, transcript quantification, gene-level matrix generation, differential expression analysis, gene set enrichment analysis, and figure generation are provided in this repository.
+All scripts used for RNA-seq processing, differential expression analysis, enrichment analysis, and figure generation are provided in this repository.
