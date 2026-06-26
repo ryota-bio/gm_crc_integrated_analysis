@@ -28,6 +28,8 @@ RNA-seq libraries were generated as paired-end reads. Transcript quantification 
 8. Hallmark GSEA NES bar plot generation
 9. GO Biological Process ORA dot plot generation
 10. KEGG pathway ORA dot plot generation
+11. Hallmark GSEA enrichment plot generation
+12. Hallmark GSEA leading edge heatmap generation
 
 ## Repository structure
 
@@ -86,6 +88,8 @@ Rscript scripts/07_make_figures.R
 Rscript scripts/08_make_gsea_nes_barplot.R
 Rscript scripts/09_make_go_ora_dotplots.R
 Rscript scripts/10_make_kegg_ora_dotplots.R
+Rscript scripts/11_make_gsea_enrichment_plots.R
+Rscript scripts/12_make_gsea_leading_edge_heatmap.R
 ```
 
 ## Output files
@@ -121,6 +125,9 @@ Figures:
 - `results/figures/*GO_BP*dotplot.png`
 - `results/figures/*KEGG*dotplot.pdf`
 - `results/figures/*KEGG*dotplot.png`
+- `results/figures/gsea_enrichment_plots/*.pdf/png`
+- `results/figures/gsea_leading_edge_heatmaps/*.pdf/png`
+- `results/figures/gsea_leading_edge_heatmaps/*_genes.csv`
 
 ## Notes on ORA
 
@@ -133,6 +140,12 @@ log2 fold change < -1 for downregulated genes
 ```
 
 Dot plots show the top enriched terms or pathways ranked by adjusted P value. The x-axis represents GeneRatio, dot size represents gene count, and dot color represents adjusted P value.
+
+## Notes on GSEA enrichment and leading edge heatmaps
+
+Hallmark GSEA enrichment plots are generated for selected pathways to visualize the running enrichment score and leading-edge position.
+
+Leading edge heatmaps show the top 30 leading-edge genes for selected Hallmark pathways. Control, 4 h infection, and 24 h infection samples are shown together in the same heatmap. Gene expression values are visualized as row-wise Z-scores using variance-stabilized expression values.
 
 ## Software versions
 
