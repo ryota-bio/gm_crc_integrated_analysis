@@ -7,7 +7,7 @@ RAW_DIR="${PROJECT_DIR}/data/raw_fastq"
 TRIM_DIR="${PROJECT_DIR}/results/fastp_trimmed"
 QC_DIR="${PROJECT_DIR}/results/fastp_qc"
 
-THREADS=${THREADS:-8}
+THREADS=${THREADS:-4}
 
 mkdir -p "${TRIM_DIR}" "${QC_DIR}"
 
