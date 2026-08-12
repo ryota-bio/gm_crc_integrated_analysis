@@ -30,7 +30,6 @@ RNA-seq libraries were generated as paired-end reads. Transcript quantification 
 10. KEGG pathway ORA dot plot generation
 11. Hallmark GSEA enrichment plot generation
 12. Hallmark GSEA leading edge heatmap generation
-13. Hallmark GSEA enrichment network plot generation
 
 ## Repository structure
 
@@ -135,9 +134,6 @@ Figures:
 - `results/figures/gsea_enrichment_plots/*.pdf/png`
 - `results/figures/gsea_leading_edge_heatmaps/*.pdf/png`
 - `results/figures/gsea_leading_edge_heatmaps/*_genes.csv`
-- `results/figures/enrichment_networks/*.pdf/png`
-- `results/figures/enrichment_networks/*_nodes.csv`
-- `results/figures/enrichment_networks/*_edges.csv`
 
 ## Notes on ORA
 
@@ -149,7 +145,7 @@ log2 fold change > 1 for upregulated genes
 log2 fold change < -1 for downregulated genes
 ```
 
-Dot plots show the top enriched terms or pathways ranked by adjusted P value. The x-axis represents GeneRatio, dot size represents gene count, and dot color represents adjusted P value.
+Dot plots show the top enriched terms or pathways ranked by Count. The x-axis represents GeneRatio, dot size represents gene count, and dot fill color represents adjusted P value.
 
 ## Notes on GSEA enrichment and leading edge heatmaps
 
@@ -179,8 +175,3 @@ Raw and processed RNA-seq data will be deposited in a public nucleotide sequence
 
 All scripts used for RNA-seq processing, differential expression analysis, enrichment analysis, and figure generation are provided in this repository.
 
-## Notes on Hallmark GSEA enrichment network plots
-
-Hallmark GSEA enrichment network plots are generated from Hallmark GSEA results only. The script creates two types of network figures: enrichment maps and cnet-like plots. Enrichment maps connect enriched pathways based on leading-edge gene overlap, while cnet-like plots show relationships between enriched pathways and their contributing leading-edge genes.
-
-Pathway names are cleaned for visualization by removing the `HALLMARK_` prefix and inserting line breaks for readability. The output files include PDF and PNG figures, as well as node and edge tables used to generate each network.
