@@ -1,0 +1,39 @@
+# Raw sequencing data
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+
+# Alignment files
+*.bam
+*.bai
+*.sam
+
+# Large reference files
+*.fa
+*.fasta
+*.fna
+*.gtf
+*.gff
+*.gff3
+
+# R temporary files
+.Rhistory
+.RData
+.Rproj.user/
+
+# Python temporary files
+__pycache__/
+*.pyc
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+
+# Raw or restricted data directories
+**/data/raw/
+**/data/raw_fastq/
+**/data/gdc_star_counts/
+
+# Salmon index
+**/salmon_index/
