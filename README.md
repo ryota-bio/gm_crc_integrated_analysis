@@ -82,15 +82,21 @@ Run the scripts from the project root directory.
 bash scripts/01_fastp_qc.sh
 bash scripts/02_salmon_index.sh
 bash scripts/03_salmon_quant.sh
+
 Rscript scripts/04_tximport_make_count_tpm.R
 Rscript scripts/05_deseq2_deg_analysis.R
-Rscript scripts/08_clusterprofiler_gsea_analysis.R
 Rscript scripts/06_make_basic_figures.R
+Rscript scripts/07_make_volcano_plots.R
+
+Rscript scripts/08_clusterprofiler_gsea_analysis.R
 Rscript scripts/09_make_gsea_nes_barplot.R
-Rscript scripts/14_make_go_ora_dotplots.R
-Rscript scripts/15_make_kegg_ora_dotplots.R
 Rscript scripts/10_make_gsea_enrichment_plots.R
 Rscript scripts/11_make_gsea_leading_edge_heatmap.R
+
+Rscript scripts/12_run_go_ora_analysis.R
+Rscript scripts/13_run_kegg_ora_analysis.R
+Rscript scripts/14_make_go_ora_dotplots.R
+Rscript scripts/15_make_kegg_ora_dotplots.R
 ```
 
 ## Output files
