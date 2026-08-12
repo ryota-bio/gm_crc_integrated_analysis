@@ -49,11 +49,11 @@ gm_hct116_rnaseq/
     ├── 03_salmon_quant.sh
     ├── 04_tximport_make_count_tpm.R
     ├── 05_deseq2_deg_analysis.R
-    ├── 06_clusterprofiler_gsea_analysis.R
-    ├── 07_make_figures.R
-    ├── 08_make_gsea_nes_barplot.R
-    ├── 09_make_go_ora_dotplots.R
-    └── 10_make_kegg_ora_dotplots.R
+    ├── 08_clusterprofiler_gsea_analysis.R
+    ├── 06_make_basic_figures.R
+    ├── 09_make_gsea_nes_barplot.R
+    ├── 14_make_go_ora_dotplots.R
+    └── 15_make_kegg_ora_dotplots.R
 ```
 
 ## Input files
@@ -84,14 +84,13 @@ bash scripts/02_salmon_index.sh
 bash scripts/03_salmon_quant.sh
 Rscript scripts/04_tximport_make_count_tpm.R
 Rscript scripts/05_deseq2_deg_analysis.R
-Rscript scripts/06_clusterprofiler_gsea_analysis.R
-Rscript scripts/07_make_figures.R
-Rscript scripts/08_make_gsea_nes_barplot.R
-Rscript scripts/09_make_go_ora_dotplots.R
-Rscript scripts/10_make_kegg_ora_dotplots.R
-Rscript scripts/11_make_gsea_enrichment_plots.R
-Rscript scripts/12_make_gsea_leading_edge_heatmap.R
-Rscript scripts/13_make_enrichment_map_network_plots.R
+Rscript scripts/08_clusterprofiler_gsea_analysis.R
+Rscript scripts/06_make_basic_figures.R
+Rscript scripts/09_make_gsea_nes_barplot.R
+Rscript scripts/14_make_go_ora_dotplots.R
+Rscript scripts/15_make_kegg_ora_dotplots.R
+Rscript scripts/10_make_gsea_enrichment_plots.R
+Rscript scripts/11_make_gsea_leading_edge_heatmap.R
 ```
 
 ## Output files
