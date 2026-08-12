@@ -1,0 +1,49 @@
+# Raw sequencing data
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+
+# Alignment files
+*.sam
+*.bam
+*.bai
+
+# Reference files
+reference/*.fa
+reference/*.fa.gz
+reference/*.fasta
+reference/*.fasta.gz
+reference/*.gtf
+reference/*.gtf.gz
+reference/salmon_index/
+
+# Results
+results/
+!results/.gitkeep
+
+# Logs
+*.log
+
+# R temporary files
+.Rhistory
+.RData
+.Rproj.user/
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+environment/R_sessionInfo.txt
+
+# Data directories
+data/
+geo_submission/
+
+# Keep directory placeholders if needed
+!data/.gitkeep
+!data/raw_fastq/.gitkeep
+!geo_submission/.gitkeep
+
+# Reference directory
+reference/
+!reference/.gitkeep

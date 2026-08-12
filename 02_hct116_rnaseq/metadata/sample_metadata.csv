@@ -1,0 +1,10 @@
+sample_id,condition,time_point,replicate,cell_line,bacteria,MOI,infection_time,fastq_R1,fastq_R2
+HCT116_Ctr_1,Control,0h,1,HCT116,none,0,0h,HCT116_Ctr_1_R1.fastq.gz,HCT116_Ctr_1_R2.fastq.gz
+HCT116_Ctr_2,Control,0h,2,HCT116,none,0,0h,HCT116_Ctr_2_R1.fastq.gz,HCT116_Ctr_2_R2.fastq.gz
+HCT116_Ctr_3,Control,0h,3,HCT116,none,0,0h,HCT116_Ctr_3_R1.fastq.gz,HCT116_Ctr_3_R2.fastq.gz
+HCT116_Gm_4h_1,Gm_infected,4h,1,HCT116,Gemella morbillorum,100,4h,HCT116_Gm_4h_1_R1.fastq.gz,HCT116_Gm_4h_1_R2.fastq.gz
+HCT116_Gm_4h_2,Gm_infected,4h,2,HCT116,Gemella morbillorum,100,4h,HCT116_Gm_4h_2_R1.fastq.gz,HCT116_Gm_4h_2_R2.fastq.gz
+HCT116_Gm_4h_3,Gm_infected,4h,3,HCT116,Gemella morbillorum,100,4h,HCT116_Gm_4h_3_R1.fastq.gz,HCT116_Gm_4h_3_R2.fastq.gz
+HCT116_Gm_24h_1,Gm_infected,24h,1,HCT116,Gemella morbillorum,100,4h_plus_24h_culture,HCT116_Gm_24h_1_R1.fastq.gz,HCT116_Gm_24h_1_R2.fastq.gz
+HCT116_Gm_24h_2,Gm_infected,24h,2,HCT116,Gemella morbillorum,100,4h_plus_24h_culture,HCT116_Gm_24h_2_R1.fastq.gz,HCT116_Gm_24h_2_R2.fastq.gz
+HCT116_Gm_24h_3,Gm_infected,24h,3,HCT116,Gemella morbillorum,100,4h_plus_24h_culture,HCT116_Gm_24h_3_R1.fastq.gz,HCT116_Gm_24h_3_R2.fastq.gz
