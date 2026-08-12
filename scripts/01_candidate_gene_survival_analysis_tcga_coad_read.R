@@ -11,24 +11,34 @@ if (!requireNamespace("survminer", quietly = TRUE)) {
 
 resolve_project_dir <- function() {
   cwd <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
-  if (basename(cwd) == "tcga_gm_microbiome_project") return(cwd)
-  normalizePath(file.path(cwd, "tcga_gm_microbiome_project"), winslash = "/", mustWork = FALSE)
+  if (basename(cwd) == "tcga_crc_candidate_gene_survival") return(cwd)
+  if (basename(cwd) == "scripts" && basename(dirname(cwd)) == "tcga_crc_candidate_gene_survival") {
+    return(normalizePath(dirname(cwd), winslash = "/", mustWork = TRUE))
+  }
+  stop(
+    paste0(
+      "Cannot identify repository root from working directory: ", cwd,
+      ". Run this script from the tcga_crc_candidate_gene_survival repository root ",
+      "or its scripts/ directory."
+    ),
+    call. = FALSE
+  )
 }
 
 project_dir <- resolve_project_dir()
 expression_candidates <- file.path(
-  project_dir, "results", "expression",
+  project_dir, "data", "expression",
   c("tcga_coad_read_vst_protein_coding.rds", "tcga_coad_read_vst_protein_coding.csv")
 )
 annotation_path <- file.path(
-  project_dir, "results", "expression", "tcga_coad_read_gene_annotation_protein_coding.csv"
+  project_dir, "data", "expression", "tcga_coad_read_gene_annotation_protein_coding.csv"
 )
-sample_map_path <- file.path(project_dir, "results", "expression", "sample_file_map.csv")
+sample_map_path <- file.path(project_dir, "data", "expression", "sample_file_map.csv")
 clinical_path <- file.path(
   project_dir, "data", "clinical", "cbioportal_coadread_tcga_pub_clinical_data.tsv"
 )
 survival_dir <- file.path(project_dir, "results", "survival")
-figure_dir <- file.path(project_dir, "results", "figures")
+figure_dir <- file.path(project_dir, "figures")
 dir.create(survival_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
 
@@ -90,7 +100,14 @@ parse_os_event <- function(x) {
 }
 
 load_annotation_targets <- function() {
-  if (!file.exists(annotation_path)) stop_with_log("Gene annotation not found: %s", annotation_path)
+  if (!file.exists(annotation_path)) {
+    log_msg("Optional gene annotation not found; using expression row names/gene_name: %s", annotation_path)
+    return(data.table(
+      gene = target_genes,
+      annotation_symbol = NA_character_,
+      ensembl_clean = NA_character_
+    ))
+  }
   ann <- fread(annotation_path, data.table = TRUE, showProgress = FALSE)
   symbol_col <- find_col(ann, c("gene_name", "gene_symbol", "symbol"))
   id_col <- find_col(ann, c("gene_id_clean", "gene_id", "ensembl_gene_id"))
@@ -115,32 +132,41 @@ load_annotation_targets <- function() {
 expression_to_matrix <- function(path) {
   if (grepl("\\.rds$", path, ignore.case = TRUE)) {
     obj <- readRDS(path)
-    if (is.matrix(obj)) return(obj)
+    if (is.matrix(obj)) {
+      return(list(matrix = obj, gene_symbols = rownames(obj)))
+    }
     if (inherits(obj, "data.frame")) {
       dt <- as.data.table(obj, keep.rownames = "row_name")
       id_col <- find_col(dt, c("gene_id", "gene_id_clean", "row_name"))
+      symbol_col <- find_col(dt, c("gene_name", "gene_symbol", "symbol"))
+      if (is.na(id_col)) id_col <- "row_name"
       ids <- as.character(dt[[id_col]])
-      value_cols <- setdiff(names(dt), id_col)
+      gene_symbols <- if (is.na(symbol_col)) ids else as.character(dt[[symbol_col]])
+      value_cols <- setdiff(names(dt), c(id_col, symbol_col, "row_name"))
       mat <- as.matrix(dt[, ..value_cols])
       storage.mode(mat) <- "numeric"
       rownames(mat) <- ids
-      return(mat)
+      return(list(matrix = mat, gene_symbols = gene_symbols))
     }
     stop_with_log("Unsupported expression RDS class: %s", paste(class(obj), collapse = ", "))
   }
   dt <- fread(path, data.table = TRUE, showProgress = FALSE)
-  id_col <- find_col(dt, c("gene_id", "gene_id_clean", "gene_name"))
+  id_col <- find_col(dt, c("gene_id", "gene_id_clean"))
   if (is.na(id_col)) id_col <- names(dt)[1]
+  symbol_col <- find_col(dt, c("gene_name", "gene_symbol", "symbol"))
   ids <- as.character(dt[[id_col]])
-  value_cols <- setdiff(names(dt), id_col)
+  gene_symbols <- if (is.na(symbol_col)) ids else as.character(dt[[symbol_col]])
+  value_cols <- setdiff(names(dt), c(id_col, symbol_col))
   mat <- as.matrix(dt[, ..value_cols])
   storage.mode(mat) <- "numeric"
   rownames(mat) <- ids
-  mat
+  list(matrix = mat, gene_symbols = gene_symbols)
 }
 
 extract_candidate_expression <- function(path, targets) {
-  mat <- expression_to_matrix(path)
+  expression_data <- expression_to_matrix(path)
+  mat <- expression_data$matrix
+  gene_symbols <- toupper(trimws(as.character(expression_data$gene_symbols)))
   ids_clean <- sub("\\..*$", "", rownames(mat))
   rows <- list()
   found <- character()
@@ -149,7 +175,8 @@ extract_candidate_expression <- function(path, targets) {
     target <- targets[gene == gene_name]
     aliases <- if (gene_name == "CCN1") c("CCN1", "CYR61") else gene_name
     hit <- which(
-      toupper(rownames(mat)) %in% aliases |
+      gene_symbols %in% aliases |
+        toupper(rownames(mat)) %in% aliases |
         (!is.na(target$ensembl_clean[1]) & ids_clean == target$ensembl_clean[1])
     )
     if (!length(hit)) {
@@ -429,7 +456,15 @@ plot_forest <- function(plot_dt, pdf_path, png_path, title, fdr_col = "fdr") {
 
 log_msg("Project directory: %s", project_dir)
 expression_path <- expression_candidates[file.exists(expression_candidates)][1]
-if (is.na(expression_path)) stop_with_log("No VST expression input found.")
+if (is.na(expression_path)) {
+  stop_with_log(
+    "No VST expression input found. Required (either file): %s",
+    paste(expression_candidates, collapse = " OR ")
+  )
+}
+if (!file.exists(clinical_path)) {
+  stop_with_log("Clinical input not found. Required file: %s", clinical_path)
+}
 log_msg("Expression file used: %s", expression_path)
 log_msg("Clinical file used: %s", clinical_path)
 
