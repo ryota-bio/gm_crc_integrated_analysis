@@ -1,0 +1,19 @@
+# Input data are not redistributed
+data/
+*.rds
+*.RData
+*.Rhistory
+
+# Large/raw data
+*.tsv
+*.txt
+*.gz
+*.bam
+*.fastq
+*.fq
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.Rproj.user/
