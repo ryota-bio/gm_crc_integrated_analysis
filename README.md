@@ -165,7 +165,7 @@ All custom scripts used for the public metagenomic and machine-learning analyses
 
 Repository URL:
 
-https://github.com/riyo-lab/gm_crc_integrated_analysis
+https://github.com/ryota-bio/gm_crc_integrated_analysis
 
 A versioned release associated with the manuscript will be created upon finalization of the analysis code.
 
