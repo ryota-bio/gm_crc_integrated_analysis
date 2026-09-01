@@ -6,13 +6,11 @@ This repository contains the computational analyses associated with our study in
 
 This repository contains the analysis code associated with the manuscript:
 
-**[Manuscript title]**
+**Gemella morbillorum promotes migration and induces migration- and cell adhesion-associated transcriptional responses in HCT 116 cells**
 
-Authors: Ryota Mori et al.
+Authors: Ryota Mori, Toshifumi Hara, Ryo Kutsuna, Junko Tomida, Tomoharu Takeuchi, and Yoshiaki Kawamura
 
-Journal: *Scientific Reports*
-
-The manuscript title and citation information will be updated upon publication.
+Citation information will be updated upon publication.
 
 ## Overview
 
@@ -67,11 +65,11 @@ RNA-seq analysis of HCT116 colorectal cancer cells infected with *Gemella morbil
 
 The RNA-seq experiment consisted of three experimental groups:
 
-- Uninfected control
-- *G. morbillorum*-infected cells collected at 4 h
-- *G. morbillorum*-infected cells collected after the later infection condition
+- Uninfected control (Ctr)
+- Cells harvested immediately after 4 h of *G. morbillorum* infection (Inf4h)
+- Cells cultured for an additional 24 h after the 4 h infection period following bacterial removal (Inf24h)
 
-Each group consisted of three biological replicates.
+Three biological replicates were analyzed for each group.
 
 Main analyses include:
 
@@ -108,7 +106,7 @@ Candidate genes analyzed include:
 - `SDC4`
 - `CCN1`
 
-These genes were selected as candidate migration-associated host genes based on the RNA-seq results and their biological relevance to cancer-cell migration.
+These genes were selected based on the RNA-seq and functional enrichment analyses as candidate genes associated with cell migration and adhesion following *G. morbillorum* infection.
 
 Main analyses include:
 
