@@ -6,7 +6,7 @@ This repository contains the computational analyses associated with our study in
 
 This repository contains the analysis code associated with the manuscript:
 
-**Gemella morbillorum promotes migration and induces migration- and cell adhesion-associated transcriptional responses in HCT 116 cells**
+**Gemella morbillorum promotes wound closure and induces transcriptional responses associated with migration and adhesion in HCT 116 colorectal cancer cells**
 
 Authors: Ryota Mori, Toshifumi Hara, Ryo Kutsuna, Junko Tomida, Tomoharu Takeuchi, and Yoshiaki Kawamura
 
@@ -16,9 +16,9 @@ Citation information will be updated upon publication.
 
 This repository integrates three computational analyses performed in the study:
 
-1. Public fecal metagenomic analysis and machine-learning-based feature selection
-2. RNA-seq analysis of HCT116 colorectal cancer cells following *Gemella morbillorum* infection
-3. TCGA COAD/READ survival analysis of candidate host genes identified from the RNA-seq analysis
+1. Public fecal metagenomic analysis and machine-learning-based identification of bacterial species associated with CRC progression
+2. RNA-seq analysis of HCT 116 colorectal cancer cells following *Gemella morbillorum* infection
+3. TCGA COAD/READ survival analysis of candidate host genes identified from the RNA-seq and functional enrichment analyses
 
 The analyses are organized into separate subdirectories to facilitate reproducibility.
 
@@ -27,10 +27,10 @@ The analyses are organized into separate subdirectories to facilitate reproducib
 Public metagenomic analysis  
 → Identification of colorectal cancer progression-associated bacterial species  
 → Selection of *Gemella morbillorum*  
-→ Infection of HCT116 colorectal cancer cells  
-→ RNA-seq and pathway analysis  
-→ Identification of candidate migration-associated host genes  
-→ TCGA survival analysis
+→ Infection of HCT 116 colorectal cancer cells  
+→ RNA-seq and functional enrichment analyses  
+→ Identification of migration- and adhesion-associated candidate host genes  
+→ TCGA COAD/READ survival analysis
 
 ## Repository structure
 
@@ -61,13 +61,13 @@ See `01_public_metagenome/README.md` for detailed instructions and data-source i
 
 ### `02_hct116_rnaseq/`
 
-RNA-seq analysis of HCT116 colorectal cancer cells infected with *Gemella morbillorum*.
+RNA-seq analysis of HCT 116 colorectal cancer cells infected with *Gemella morbillorum*.
 
 The RNA-seq experiment consisted of three experimental groups:
 
 - Uninfected control (Ctr)
 - Cells harvested immediately after 4 h of *G. morbillorum* infection (Inf4h)
-- Cells cultured for an additional 24 h after the 4 h infection period following bacterial removal (Inf24h)
+- Cells cultured for an additional 24 h after bacterial removal following 4 h of infection (Inf4h+24h)
 
 Three biological replicates were analyzed for each group.
 
@@ -97,7 +97,7 @@ See `02_hct116_rnaseq/README.md` for detailed execution instructions.
 
 ### `03_tcga_survival/`
 
-TCGA COAD/READ survival analysis of candidate host genes identified from the HCT116 RNA-seq analysis.
+TCGA COAD/READ survival analysis of candidate host genes identified from the RNA-seq and functional enrichment analyses.
 
 Candidate genes analyzed include:
 
@@ -161,7 +161,7 @@ Because several analyses rely on publicly available datasets that are not redist
 
 ## Code availability
 
-All custom scripts used for the public metagenomic and machine-learning analyses, HCT116 RNA-seq analysis, and TCGA COAD/READ survival analysis are provided in this repository.
+All custom scripts used for the public metagenomic and machine-learning analyses, HCT 116 RNA-seq analysis, and TCGA COAD/READ survival analysis are provided in this repository.
 
 Repository URL:
 
