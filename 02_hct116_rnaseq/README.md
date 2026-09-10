@@ -6,11 +6,11 @@ The analysis includes read quality control, transcript quantification, gene-leve
 
 ## Experimental design
 
-HCT116 cells were analyzed under the following conditions:
+HCT 116 cells were analyzed under the following conditions:
 
-- Control
-- *Gemella morbillorum* infection for 4 h
-- *Gemella morbillorum* infection for 24 h
+- Uninfected control (Ctr)
+- *Gemella morbillorum* infection for 4 h (Inf4h)
+- An additional 24 h of culture after bacterial removal following 4 h of infection (Inf4h+24h)
 
 Each condition included three biological replicates.
 
